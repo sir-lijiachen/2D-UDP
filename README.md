@@ -4,6 +4,28 @@
 ## Scenes 1 --拖放
 **功能：** 拖动图片，如果松开图片时，不在中心范围，这移动到初始位置，如果在移动范围，则进行动画。  
 **配置：** Loom.cs  
+**读取streamingAssetsPath中的XML文件**
+```C#
+        //【xml.xml是xml的文件名，地址在streamingAssetsPath/xml.xml】
+        xmlPath = Path.Combine(Application.streamingAssetsPath, "xml.xml");
+```
+**获取自身IP**
+```C#
+    string GetLocalIP()
+    {
+        string ipAddress = "";
+        foreach (IPAddress address in Dns.GetHostAddresses(Dns.GetHostName()))
+        {
+            if (address.AddressFamily == AddressFamily.InterNetwork)
+            {
+                ipAddress = address.ToString();
+                break;
+            }
+        }
+        return ipAddress;
+    }
+```
+
 ### Touch
 需要在StreamingAssets配置xml文件，用来获取IP地址。
 
@@ -34,8 +56,8 @@
 **XML格式**
 ```C#
 <body>
-	<touchIP>127.0.0.1</touchIP>
 	<touchPort>4001</touchPort>
+	<displayIP>127.0.0.1</displayIP>
 	<displayPort>5001</displayPort>
 </body>
 ```
