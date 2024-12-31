@@ -3,13 +3,48 @@
 
 ## Scenes 1 --拖放
 **功能：** 拖动图片，如果松开图片时，不在中心范围，这移动到初始位置，如果在移动范围，则进行动画。  
+**配置：** Loom.cs  
 ### Touch
+需要在StreamingAssets配置xml文件，用来获取IP地址。
 
+- UdpConfig是一个自定义的类
+- ReadXML是获取XML文件中的IP地址
+- UdpTouch是udp通信，发送 SocketSend 方法，接收为 SocketReceive 方法
+- Receive是通过 UdpTouch 中的 SocketReceive 方法接收数据，然后进行整理处理
+- Main1是整体把控
+
+**XML格式**
+```C#
+<body>
+	<touchPort>4001</touchPort>
+	<displayIP>127.0.0.1</displayIP>
+	<displayPort>5001</displayPort>
+</body>
+```
+**读取xml：** `UdpConfig.XXXX`
 ### Display
+需要在StreamingAssets配置xml文件，用来获取IP地址。
+
+- UdpConfig是一个自定义的类
+- ReadXML是获取XML文件中的IP地址
+- UdpDisPlay是udp通信，发送 SocketSend 方法，接收为 SocketReceive 方法
+- Receive是通过 UdpTouch 中的 SocketReceive 方法接收数据，然后进行整理处理
+- Main1是整体把控
+
+**XML格式**
+```C#
+<body>
+	<touchIP>127.0.0.1</touchIP>
+	<touchPort>4001</touchPort>
+	<displayPort>5001</displayPort>
+</body>
+```
+**读取xml：** `UdpConfig.XXXX`
+
 
 ## Scenes 2 串口通信
 **功能：** 点击按钮，让特定的灯亮起来
-**配置：Loom.cs**  
+**配置：** Loom.cs  
 ### Touch
 
 先在 Unity 编辑器中，去 `Edit -> Project Settings -> Player -> Other Settings` 中将`Scripting Runtime Version`设置为`.NET Framework`，这样`using System.IO.Ports`就启用了。LightUp是预先固定了指令，可以改为读取Json来获取指令。
