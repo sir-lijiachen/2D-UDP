@@ -1,0 +1,19 @@
+<body>
+
+	<touchPort>4001</touchPort>
+
+	<displayIP>127.0.0.1</displayIP>
+	<displayPort>5001</displayPort>
+	
+	
+	<standby>300</standby>
+
+</body>
+
+
+<!--  触控通信的端口号  -->
+
+<!--  显示屏的IP地址  --><!--  没有联网IP地址是：127.0.0.1  -->
+<!--  显示屏通信的端口号  -->
+
+<!--  待机时间 -->
