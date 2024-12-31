@@ -1,18 +1,57 @@
-# 2D-UDP
-是一个平面设计，通过UDP连接触摸屏和显示屏
-## Touch
-这是一个触摸屏，用于操控。
+# 2D-通信
+主要UDP连接触摸屏和显示屏，但也含有串口通信
 
-### 场景1 --拖放
+## Scenes 1 --拖放
+**功能：** 拖动图片，如果松开图片时，不在中心范围，这移动到初始位置，如果在移动范围，则进行动画。  
+### Touch
 
-#### 讲解
-拖动图片，如果松开图片时，不在中心范围，这移动到初始位置，如果在移动范围，则进行动画。
+### Display
 
-#### 操作
-在需要拖动的ui上，挂载`Event Trigger`组件和`DragAndDrop`脚本。<br>
-为脚本添加中心图片RectTransform。<br>
-操作组件，添加事件。
+## Scenes 2 串口通信
+**功能：** 点击按钮，让特定的灯亮起来
+**配置：Loom.cs**  
+### Touch
 
+先在 Unity 编辑器中，去 `Edit -> Project Settings -> Player -> Other Settings` 中将`Scripting Runtime Version`设置为`.NET Framework`，这样`using System.IO.Ports`就启用了。LightUp是预先固定了指令，可以改为读取Json来获取指令。
 
-## Display
-这是一个显示屏，用于显示内容。
+- SerialCommunication是串口通信，发送为SendHexData方法。其中设置了串口名称、波特率、奇偶校验、数据位、停止位。
+- LightUp是发送指令让灯亮起来。定时发送指令，让灯一个一个亮起来，在灭掉。
+
+**定时器推荐使用**
+```C#
+    // 启动定时器
+    void StartTimer()
+    {
+        // 创建新的定时器，设置时间间隔为 readTime 毫秒
+        timer = new System.Timers.Timer(readTime);
+
+        // 绑定定时器的 Elapsed 事件，触发时调用 onTimerHandler 方法
+        timer.Elapsed += new ElapsedEventHandler(onTimerHandler);
+
+        // 启动定时器
+        timer.Start();
+    }
+
+    //销毁上面计时器
+    public void OnDestroy()
+    {
+        serialCommunication.SendHexData(lightAllOffCommand);
+        // 确保在对象销毁时停止定时器
+        if (timer != null)
+        {
+            timer.Stop();
+        }
+    }
+
+    // 重新启动定时器
+    public void RestartTimer()
+    {
+        currentIndex = 0;
+        // 重新启动定时器，先停止再开始
+        if (timer != null)
+        {
+            timer.Stop();  // 停止当前定时器
+            timer.Start(); // 重新启动定时器
+        }
+    }
+```
